@@ -77,23 +77,44 @@ const CourseInfo = {
   ];
   
   function getLearnerData(course, ag, submissions) {
+  /* here, we would process this data to achieve the desired result.
 
+    1. first figure out who are the students
+    generate an array of unique students ids
+    generate an array of students ids -> [125,125,125,132,132]
+    generate the array from submissions data then make it unique -> [125,132]
+  
+  */
+
+  // Declare an empty array to hold the value of learner submissions, by learner id
+  const studentid = []
+
+  // For loop to get the values of all the id's in the array of objects and 
+  // push those values to the empty array
+  for (let i = 0; i < LearnerSubmissions.length; i ++) {
+      submissions = LearnerSubmissions[i].learner_id  
+      studentid.push(submissions)
+  }
+
+  // utilize set constructor in order to get an array of unique student ID's
+  let set = new Set(studentid)
+  let uniqueStudentId = [...set]
+  console.log (uniqueStudentId)
+      
     /*
-  
-      here, we would process this data to achieve the desired result.
-  
-      1. first figure out who are the students
-      generate an array of unique students ids
-      generate an array of students ids -> [125,125,125,132,132]
-      generate the array from submissions data then make it unique -> [125,132]
-  
       2. convert it into array of object where you have a key called id
       then value be studendid -> [{id:125},{id:132}]
-  
+    */
+
+    /*
       3. get the assignments and calulcate the grade
       find the assignment for each student and thier score
       -> [{id:125,1:47,2:150,3:400},{id:132,1:32,2:140}]
       now you have an object for each student that has score
+    */
+    
+
+    /*
   
       4. we need to calculate the grade
       go every student and match assignment using id to find points points_possible
@@ -130,5 +151,5 @@ const CourseInfo = {
   
   const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
   
-  console.log(result);
+  // console.log(result);
   
