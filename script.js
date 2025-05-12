@@ -100,20 +100,20 @@ const CourseInfo = {
   let set = new Set(studentid)
   let uniqueStudentId = [...set]
   console.log (uniqueStudentId)
-      
+     
   
     /*
       2. convert it into array of object where you have a key called id
       then value be studendid -> [{id:125},{id:132}]
     */
-
+    // .map of uniqueStudentId allows each element of the array to be treated individually
+    // where it will then be put as a value of an object key id
     let students = uniqueStudentId.map((studentId) => {
         let studentObj = {
           id: studentId
         }
         return studentObj
     })
-
     console.log(students)
 
     /*
@@ -123,6 +123,49 @@ const CourseInfo = {
       now you have an object for each student that has score
     */
     
+
+    //
+    // const assignments = []
+
+    // an empty array used for holding assignment score values
+    const assignmentScores = []
+    
+    // a loop to retrieve each assignment score and push it to the empty array
+    try {
+      for(let i = 0; i < LearnerSubmissions.length; i++ ) {
+      // let assignmentId = LearnerSubmissions[i].assignment_id
+      let scores = LearnerSubmissions[i].submission.score
+      // assignments.push(assignmentId)
+      assignmentScores.push(scores)
+    }
+
+    // assigning values of assignment scores directly to numbered keys
+    // strictly for student 125
+    let scoreObj125 = {
+      1:assignmentScores[0],
+      2:assignmentScores[1],
+      3:assignmentScores[2]
+    }
+    console.log(scoreObj125)
+
+    // assigning values of assignment scores directly to numbered keys
+    // strictly for student 132
+    let scoreObj132 = {
+      1:assignmentScores[3],
+      2:assignmentScores[4]
+    }
+    console.log(scoreObj132)
+
+    // assigning the specific student score objects to the respective students
+    Object.assign(students[0], scoreObj125)
+    Object.assign(students[1], scoreObj132)
+    
+    console.log(students)
+    
+    // try catch statement to call error without crashing the program
+    } catch {
+      console.log('error');
+    }
 
     /*
   
