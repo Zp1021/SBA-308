@@ -92,8 +92,13 @@ const CourseInfo = {
   // For loop to get the values of all the id's in the array of objects and 
   // push those values to the empty array
   for (let i = 0; i < LearnerSubmissions.length; i ++) {
-      submissions = LearnerSubmissions[i].learner_id  
+      submissions = LearnerSubmissions[i].learner_id
+      if (submissions === LearnerSubmissions[i].learner_id){ 
       studentid.push(submissions)
+      continue;
+      } else {
+        throw console.error('Not the right value')
+      }
   }
 
   // utilize set constructor in order to get an array of unique student ID's
@@ -108,13 +113,27 @@ const CourseInfo = {
     */
     // .map of uniqueStudentId allows each element of the array to be treated individually
     // where it will then be put as a value of an object key id
+    // 125
+    // 132
     let students = uniqueStudentId.map((studentId) => {
         let studentObj = {
           id: studentId
         }
+        /* 
+         let assignmnets = LearnerSubmissions.filter((student)=>student.learner_id === studentId )
+     
+
+         assignmnets.forEach((assignment)=>{
+           let key = assignment.assignment_id
+           let foundAssignment = AssignmentGroup.assignments.find((assignmentInfo)=>assignmentInfo.id === key)
+
+
+           studentObj[key] = assignment.submission.score/foundAssignment.points_possible
+         })
+        */
         return studentObj
     })
-    console.log(students)
+  
 
     /*
       3. get the assignments and calulcate the grade
@@ -122,10 +141,6 @@ const CourseInfo = {
       -> [{id:125,1:47,2:150,3:400},{id:132,1:32,2:140}]
       now you have an object for each student that has score
     */
-    
-
-    //
-    // const assignments = []
 
     // an empty array used for holding assignment score values
     const assignmentScores = []
@@ -136,23 +151,28 @@ const CourseInfo = {
       // let assignmentId = LearnerSubmissions[i].assignment_id
       let scores = LearnerSubmissions[i].submission.score
       // assignments.push(assignmentId)
+      if (scores === LearnerSubmissions[i].submission.score){
       assignmentScores.push(scores)
+      } else {
+        throw (console.error('Not the right value')
+        )
+      }
     }
 
     // assigning values of assignment scores directly to numbered keys
     // strictly for student 125
     let scoreObj125 = {
-      1:assignmentScores[0],
-      2:assignmentScores[1],
-      3:assignmentScores[2]
+      1:assignmentScores[0]/AssignmentGroup.assignments[0].points_possible,
+      2:assignmentScores[1]/AssignmentGroup.assignments[1].points_possible,
+      3:assignmentScores[2]/AssignmentGroup.assignments[2].points_possible
     }
     console.log(scoreObj125)
 
     // assigning values of assignment scores directly to numbered keys
     // strictly for student 132
     let scoreObj132 = {
-      1:assignmentScores[3],
-      2:assignmentScores[4]
+      1:assignmentScores[3]/AssignmentGroup.assignments[0].points_possible,
+      2:assignmentScores[4]/AssignmentGroup.assignments[1].points_possible
     }
     console.log(scoreObj132)
 
@@ -160,7 +180,7 @@ const CourseInfo = {
     Object.assign(students[0], scoreObj125)
     Object.assign(students[1], scoreObj132)
     
-    console.log(students)
+    // console.log(students)
     
     // try catch statement to call error without crashing the program
     } catch {
@@ -168,13 +188,51 @@ const CourseInfo = {
     }
 
     /*
-  
+
       4. we need to calculate the grade
       go every student and match assignment using id to find points points_possible
       you just divide the score by points points_possible
       -> [{id:125,1:0.94,2:1.0}]
       avg (add assignment scores together )/ (points possible)
       remove not due assignments
+    */
+
+    let assignment1 = AssignmentGroup.assignments[0].points_possible
+    let assignment2 = AssignmentGroup.assignments[1].points_possible
+    let totalPoints = assignment1 + assignment2
+    let totalGrade125 = assignmentScores[0] + assignmentScores[1]
+    let avgGrade125 = totalGrade125/totalPoints
+    // console.log(totalGrade125)
+    // console.log(avgGrade125)
+
+    gradeOf125 = {
+      avg: avgGrade125
+    }
+
+    let totalGrade132 = assignmentScores [3] + assignmentScores[4]
+    let avgGrade132  = totalGrade132/totalPoints
+
+    // console.log(totalGrade132)
+    // console.log(avgGrade132)
+    
+    gradeOf132 = {
+      avg: avgGrade132
+    }
+
+    Object.assign(students[0], gradeOf125)
+    Object.assign(students[1], gradeOf132)
+
+    // console.log(students)
+    return students;
+    // switch (dueDate) {
+
+    // }
+    
+      
+    
+      
+
+    /*
   
       const result = [
         {
@@ -204,5 +262,5 @@ const CourseInfo = {
   
   const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
   
-  // console.log(result);
+  console.log(result);
   
