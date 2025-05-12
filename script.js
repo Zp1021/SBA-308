@@ -101,10 +101,20 @@ const CourseInfo = {
   let uniqueStudentId = [...set]
   console.log (uniqueStudentId)
       
+  
     /*
       2. convert it into array of object where you have a key called id
       then value be studendid -> [{id:125},{id:132}]
     */
+
+    let students = uniqueStudentId.map((studentId) => {
+        let studentObj = {
+          id: studentId
+        }
+        return studentObj
+    })
+
+    console.log(students)
 
     /*
       3. get the assignments and calulcate the grade
